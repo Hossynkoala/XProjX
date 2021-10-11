@@ -1,9 +1,9 @@
 import './App.css';
-import {
-    Grid,
-} from "@mui/material";
-import Feeds from "./Componnents/Feeds/Feeds";
-import AppBar from"./Componnents/AppBar/AppBar"
+import {Grid,} from "@mui/material";
+//import Feeds from "./Componnents/Feeds/Feeds";
+import Syncer from "./Componnents/Syncer/Syncer";
+import AppBar from "./Componnents/AppBar/AppBar"
+
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
                 <AppBar/>
             </Grid>
             <Grid>
-                <Feeds/>
+                <Syncer/>
             </Grid>
 
         </Grid>
