@@ -1,9 +1,8 @@
 import * as React from 'react';
-import {DataGrid} from '@mui/x-data-grid';
-import {RecieveRSSs} from '../../DB/DB'
+import {DataGrid,} from '@mui/x-data-grid';
+import {RecieveRSSs,updateRSSs} from '../../DB/DB'
 import {useEffect, useState} from "react";
-import {Button, ButtonGroup, Stack} from "@mui/material";
-
+import {Button, Stack} from "@mui/material";
 
 const columns = [
     {
@@ -39,66 +38,78 @@ const columns = [
             `${params.getValue(params.id, 'URL') || ''}/${params.getValue(params.id, 'RSSs') || ''}`,
     },
 ]
+let RSSs = [];
+let rowsSelection = [];
 
 
-function Grid() {
+export default function Syncer() {
+
+
+    function Sync() {
+        if (rowsSelection.length > 0) {
+            rowsSelection.forEach( (row) => {
+//last
+               updateRSSs((row.URL+row.RSSs)).then(res=>{
+                   console.log(res);
+               });
+            });
+        } else {
+            console.log("UpdateAll");
+        }
+    }
+
+    function selectRow(rowsID, Detail) {
+        rowsSelection = rowsID;
+    }
+
+
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
         RecieveRSSs().then(result => {
 
+            RSSs = [];
+
             for (let rs = 0; result.length > rs; rs++) {
+                RSSs.push(result[rs]);
                 result[rs].id = rs;
             }
-            console.log("hi");
             setRows(result);
+
         });
 
     }, [])
 
-    return (
-        <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={20}
-            rowsPerPageOptions={[6]}
-            autoHeight
-            disableSelectionOnClick
-            checkboxSelection
-        />
-    )
 
-};
-
-
-function ItemHeader(Name) {
-    return (
-
-        <Button style={{
-            color: 'white',
-            borderRadius: '10%',
-            background: '#1976d2',
-            height: "auto",
-            margin: 10,
-            padding: 10
-        }}>
-            {Name.Name != undefined ? Name.Name : "Not Set"}
-        </Button>
-    );
-
-}
-
-
-export default function Syncer() {
     return (
         <div style={{height: 400, width: '100%'}}>
             <Stack spacing={3} direction={'row'}>
-                <ButtonGroup variant="contained"  aria-label="split button">
-                </ButtonGroup>
+                <Button onClick={Sync}
+
+                        style={{
+                            color: 'white',
+                            borderRadius: '10%',
+                            background: '#1976d2',
+                            height: "auto",
+                            margin: 10,
+                            padding: 10
+                        }}>
+                    Sync
+                </Button>
             </Stack>
 
 
-            <Grid></Grid>
+            <DataGrid
+
+                onSelectionModelChange={selectRow}
+                rows={rows}
+                columns={columns}
+                pageSize={20}
+                rowsPerPageOptions={[6]}
+                autoHeight
+                disableSelectionOnClick
+                checkboxSelection
+            />
         </div>
     );
 }
