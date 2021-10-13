@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {DataGrid,} from '@mui/x-data-grid';
-import {RecieveRSSs,updateRSSs} from '../../DB/DB'
+import {RecieveRSSs, updateRSSs} from '../../DB/DB'
 import {useEffect, useState} from "react";
-import {Button, Stack} from "@mui/material";
+import {Box, Button, Modal, Stack, TextField} from "@mui/material";
 
 const columns = [
     {
@@ -47,12 +47,13 @@ export default function Syncer() {
 
     function Sync() {
         if (rowsSelection.length > 0) {
-            rowsSelection.forEach( (row) => {
-//last
-               updateRSSs((row.URL+row.RSSs)).then(res=>{
-                   console.log(res);
-               });
-            });
+
+            for (let r=0;rowsSelection.length>r;r++){
+                updateRSSs(`${RSSs[rowsSelection[r]].URL}/${RSSs[rowsSelection[r]].RSSs}`).then(result=>{
+                    console.log(result);
+                });
+            }
+
         } else {
             console.log("UpdateAll");
         }
@@ -83,6 +84,40 @@ export default function Syncer() {
 
     return (
         <div style={{height: 400, width: '100%'}}>
+            <Modal  open={true}>
+                <Box style={{
+                    position: 'absolute',
+                    justifyItems:'center',
+                    justifyContent:'center',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    height:600,
+                   background:'white',
+                    borderRadius:"3%"
+                    }}>
+
+                    <TextField type={'url'}  label={"URL"}
+                           style={{
+                               top:'5%',
+                               left:'10%',
+                               maxWidth:280,
+                               width:'100%',
+                               margin:'5%'}} />
+
+                    <TextField label={"Name"}
+                               style={{
+                                   top:'5%',
+                                   left:'10%',
+                                   maxWidth:280,
+                                   width:'100%',
+                                   margin:'5%'}} />
+
+
+                </Box>
+
+            </Modal>
             <Stack spacing={3} direction={'row'}>
                 <Button onClick={Sync}
 
