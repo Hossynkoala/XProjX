@@ -1,8 +1,23 @@
 import * as React from 'react';
-import {DataGrid,} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 import {RecieveRSSs, updateRSSs} from '../../DB/DB'
 import {useEffect, useState} from "react";
-import {Box, Button, Modal, Stack, TextField} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import {
+    Button,
+    Checkbox, Chip,
+    Divider,
+    FormControlLabel,
+    FormGroup,
+    Grid, IconButton, InputBase,
+    Modal,
+    Paper,
+    Stack,
+    TextField,
+
+} from "@mui/material";
+import {Close, ClosedCaption, SendRounded} from "@mui/icons-material";
+
 
 const columns = [
     {
@@ -48,8 +63,8 @@ export default function Syncer() {
     function Sync() {
         if (rowsSelection.length > 0) {
 
-            for (let r=0;rowsSelection.length>r;r++){
-                updateRSSs(`${RSSs[rowsSelection[r]].URL}/${RSSs[rowsSelection[r]].RSSs}`).then(result=>{
+            for (let r = 0; rowsSelection.length > r; r++) {
+                updateRSSs(`${RSSs[rowsSelection[r]].URL}/${RSSs[rowsSelection[r]].RSSs}`).then(result => {
                     console.log(result);
                 });
             }
@@ -84,46 +99,96 @@ export default function Syncer() {
 
     return (
         <div style={{height: 400, width: '100%'}}>
-            <Modal  open={true}>
-                <Box style={{
+            <Modal open={true}>
+
+                <FormGroup style={{
                     position: 'absolute',
-                    justifyItems:'center',
-                    justifyContent:'center',
+                    justifyItems: 'center',
+                    justifyContent: 'right',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: 400,
-                    height:600,
-                   background:'white',
-                    borderRadius:"3%"
-                    }}>
+                    height: 600,
+                    background: 'white',
+                    borderRadius: "10px",
+                }}>
 
-                    <TextField type={'url'}  label={"URL"}
-                           style={{
-                               top:'5%',
-                               left:'10%',
-                               maxWidth:280,
-                               width:'100%',
-                               margin:'5%'}} />
+                    <h3 style={{
+                        width: '90%',
+                        margin: '5%'
+                    }}> Add Feeder </h3>
+                    <Divider/>
+
+                    <TextField type={'url'} label={"URL"}
+                               style={{
+                                   width: '90%',
+                                   margin: '5%'
+                               }}/>
 
                     <TextField label={"Name"}
                                style={{
-                                   top:'5%',
-                                   left:'10%',
-                                   maxWidth:280,
-                                   width:'100%',
-                                   margin:'5%'}} />
+                                   width: '90%',
+                                   margin: '5%'
+                               }}/>
+
+                    <Grid style={{
+                        width: '90%',
+                        margin: '5%',
+                    }}>
+
+                        <Stack  alignItems="left" flexWrap={'wrap'} justifyContent={'space-evenly'}  style={{height:'auto'}} direction={"row"}>
+//last change
+
+                        </Stack>
+
+                        <Paper
+                            component="form"
+                            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "100%" }}
+                        >
+
+                            <InputBase
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder="Search Google Maps"
+                                inputProps={{ 'aria-label': 'search google maps' }}
+                            />
+
+                            <IconButton type="submit" sx={{ p: '10px' }} >
+                                <SendRounded/>
+                            </IconButton>
+                        </Paper>
+
+                    </Grid>
 
 
-                </Box>
+                    <FormControlLabel style={{
+                        width: '90%',
+                        margin: '5%'
+                    }} control={<Checkbox defaultChecked/>} label="Active"/>
+
+
+                    <Button style={{
+                        color: 'white',
+                        borderRadius: '10px',
+                        background: '#1976d2',
+                        height: "auto",
+                        margin: "5%",
+                        padding: 10
+                    }}>
+                        Sync
+                    </Button>
+
+
+                </FormGroup>
 
             </Modal>
+
+
             <Stack spacing={3} direction={'row'}>
                 <Button onClick={Sync}
-
                         style={{
                             color: 'white',
-                            borderRadius: '10%',
+                            borderRadius: '10px',
                             background: '#1976d2',
                             height: "auto",
                             margin: 10,
