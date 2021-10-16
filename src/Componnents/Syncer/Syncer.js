@@ -2,21 +2,7 @@ import * as React from 'react';
 import {DataGrid} from '@mui/x-data-grid';
 import {RecieveRSSs, updateRSSs} from '../../DB/DB'
 import {useEffect, useState} from "react";
-import CloseIcon from '@mui/icons-material/Close';
-import {
-    Button,
-    Checkbox, Chip,
-    Divider,
-    FormControlLabel,
-    FormGroup,
-    Grid, IconButton, InputBase,
-    Modal,
-    Paper,
-    Stack,
-    TextField,
-
-} from "@mui/material";
-import {Close, ClosedCaption, SendRounded} from "@mui/icons-material";
+import {Button, Stack} from "@mui/material";
 
 
 const columns = [
@@ -99,89 +85,6 @@ export default function Syncer() {
 
     return (
         <div style={{height: 400, width: '100%'}}>
-            <Modal open={true}>
-
-                <FormGroup style={{
-                    position: 'absolute',
-                    justifyItems: 'center',
-                    justifyContent: 'right',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 400,
-                    height: 600,
-                    background: 'white',
-                    borderRadius: "10px",
-                }}>
-
-                    <h3 style={{
-                        width: '90%',
-                        margin: '5%'
-                    }}> Add Feeder </h3>
-                    <Divider/>
-
-                    <TextField type={'url'} label={"URL"}
-                               style={{
-                                   width: '90%',
-                                   margin: '5%'
-                               }}/>
-
-                    <TextField label={"Name"}
-                               style={{
-                                   width: '90%',
-                                   margin: '5%'
-                               }}/>
-
-                    <Grid style={{
-                        width: '90%',
-                        margin: '5%',
-                    }}>
-
-                        <Stack  alignItems="left" flexWrap={'wrap'} justifyContent={'space-evenly'}  style={{height:'auto'}} direction={"row"}>
-//last change
-
-                        </Stack>
-
-                        <Paper
-                            component="form"
-                            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "100%" }}
-                        >
-
-                            <InputBase
-                                sx={{ ml: 1, flex: 1 }}
-                                placeholder="Search Google Maps"
-                                inputProps={{ 'aria-label': 'search google maps' }}
-                            />
-
-                            <IconButton type="submit" sx={{ p: '10px' }} >
-                                <SendRounded/>
-                            </IconButton>
-                        </Paper>
-
-                    </Grid>
-
-
-                    <FormControlLabel style={{
-                        width: '90%',
-                        margin: '5%'
-                    }} control={<Checkbox defaultChecked/>} label="Active"/>
-
-
-                    <Button style={{
-                        color: 'white',
-                        borderRadius: '10px',
-                        background: '#1976d2',
-                        height: "auto",
-                        margin: "5%",
-                        padding: 10
-                    }}>
-                        Sync
-                    </Button>
-
-
-                </FormGroup>
-
-            </Modal>
 
 
             <Stack spacing={3} direction={'row'}>

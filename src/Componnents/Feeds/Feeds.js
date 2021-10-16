@@ -1,9 +1,12 @@
 import * as React from 'react';
 import {DataGrid} from '@mui/x-data-grid';
 import {recieveFeeds} from '../../DB/DB'
-import {useEffect, useState} from "react";
+import {Component, createElement, useEffect, useState} from "react";
+import {Button, Stack} from "@mui/material";
+import AddFeeds from "./moduleAddFeed/moduleAddFeeds";
+import ReactDOM, {createPortal} from "react-dom";
 
-
+const node = document.getElementById('modal-root');
 const columns = [
     {
         field: 'id'
@@ -51,12 +54,18 @@ const columns = [
     },
 ]
 
+export default function Feeds() {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const openmodule = () => {
+        setIsOpen(!isOpen);
+    }
 
 
-const Grid = () => {
     const [rows, setRows] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         recieveFeeds().then(result => {
 
             for (let s = 0; result.length > s; s++) {
@@ -66,31 +75,41 @@ const Grid = () => {
                 result[s].RSSs = result[s].RSSs.length > 0 ? result[s].RSSs : "[ No RSS]";
             }
 
-            console.log(result);
             setRows(result);
         });
 
-    },[])
-
+    }, [])
 
 
     return (
-        <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={20}
-            rowsPerPageOptions={[6]}
-            autoHeight
-            disableSelectionOnClick
-        />
-    )
 
-};
-
-export default function Feeds() {
-    return (
         <div style={{height: 400, width: '100%'}}>
-            <Grid></Grid>
+
+            <AddFeeds close={openmodule} isOpen={isOpen}></AddFeeds>
+
+            <Stack spacing={3} direction={'row'}>
+                <Button
+                    onClick={openmodule}
+                    style={{
+                        color: 'white',
+                        borderRadius: '10px',
+                        background: '#1976d2',
+                        height: "auto",
+                        margin: 10,
+                        padding: 10
+                    }}>
+                    Add Feeder
+                </Button>
+            </Stack>
+
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={20}
+                rowsPerPageOptions={[6]}
+                autoHeight
+                disableSelectionOnClick
+            />
         </div>
     );
 }
