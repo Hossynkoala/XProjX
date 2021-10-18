@@ -5,24 +5,14 @@ import SyncIcon from '@mui/icons-material/Sync';
 import {useState} from "react";
 import {DataUsageTwoTone} from "@mui/icons-material";
 
+
 function AppBarComponnent() {
 
-    const [state, Setstate] = useState({
-        open: false
-    });
-
-    async function open() {
-        Setstate({open: true});
-    }
-
-    function close() {
-        Setstate({open: false});
-    }
-
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     return (
         <div>
-            <Drawer onClick={close} open={state.open} id="Drawer" anchor="left">
+            <Drawer onClick={()=>{setDrawerOpen(!drawerOpen)}} open={drawerOpen} id="Drawer" anchor="left">
                 <Box sx={{width: 200}}>
                     <List>
                         <ListItemButton sx={{width: '100%', height: 40}}>
@@ -59,8 +49,8 @@ function AppBarComponnent() {
 
 
                 <Toolbar variant="dense">
-                    <IconButton edge="start" color="inherit" aria-label="menu" sx={{mr: 2}}>
-                        <MenuIcon onClick={open}/>
+                    <IconButton onClick={()=>{setDrawerOpen(!drawerOpen)}} >
+                        <MenuIcon style={{color:'white'}} />
                     </IconButton>
                 </Toolbar>
             </AppBar>
