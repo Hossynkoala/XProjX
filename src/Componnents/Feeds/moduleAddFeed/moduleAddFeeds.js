@@ -14,13 +14,46 @@ import {
 } from "@mui/material";
 import {SendRounded} from "@mui/icons-material";
 import {useState} from "react";
-
+import {addFeed} from '../../../DB/DB';
 
 export default function AddFeeds({close, isOpen}) {
+    const [active, setactive] = useState(true);
     const [Rsss, setRsss] = useState([]);
     const [Tags, setTags] = useState([]);
     const [valueRss, setValueRss] = useState('');
     const [valueTag, setValueTag] = useState('');
+    const [URL, setURL] = useState('');
+    const [name, setName] = useState('');
+
+
+    function sendFeed() {
+        const data = {
+            URL: '',
+            Name: '',
+            IsActive: false,
+            Tags: [],
+            RSSs: []
+        }
+        data.URL = URL;
+        data.Name = name;
+        data.IsActive = active;
+        console.log(URL);
+
+        Tags.forEach(tg => {
+
+            data.Tags.push(tg.props.label);
+
+        });
+
+        Rsss.forEach(rs => {
+
+            data.RSSs.push(rs.props.label);
+
+        });
+
+        addFeed(data);
+
+    };
 
     const customChipRss = ({label}) => {
         return (
@@ -108,14 +141,19 @@ export default function AddFeeds({close, isOpen}) {
 
                 <Divider/>
 
-                <TextField type={'url'} label={"URL"}
+                <TextField value={URL} onChange={(e) => {
+                    setURL(e.target.value)
+                }} type={'url'} label={"URL"}
                            style={{
-                               height:"10px",
+                               height: "10px",
                                width: '90%',
                                margin: '5%'
                            }}/>
 
                 <TextField label={"Name"}
+                           value={name} onChange={(e) => {
+                    setName(e.target.value)
+                }}
                            style={{
                                width: '90%',
                                margin: '5%'
@@ -192,30 +230,35 @@ export default function AddFeeds({close, isOpen}) {
                 </Grid>
 
 
-                <FormControlLabel style={{
+                <FormControlLabel checked={active} onChange={() => {
+                    setactive(!active)
+                }} style={{
                     width: '90%',
                     margin: '5%'
                 }} control={<Checkbox defaultChecked/>} label="Active"/>
 
+                <Stack style={{height: 50, justifyContent: 'center'}} direction={'row'}>
 
-                <Button style={{
-                    color: 'white',
-                    borderRadius: '10px',
-                    background: '#1976d2',
-                    height: "auto",
-                    margin: "5%",
-                    padding: 10
-                }}>
-                    Sync
-                </Button>
-                <Button variant={'text'} onClick={close} style={{
-                    borderRadius: '10px',
-                    height: "auto",
-                    margin: "5%",
-                    padding: 10
-                }}>
-                    Cancel
-                </Button>
+                    <Button onClick={sendFeed} style={{
+                        color: 'white',
+                        borderRadius: '10px',
+                        background: '#1976d2',
+                        height: "auto",
+                        width: '60%',
+                        padding: 10
+                    }}>
+                        add Feed
+                    </Button>
+                    <Button variant={'text'} onClick={close} style={{
+                        borderRadius: '10px',
+                        height: "auto",
+                        width: '30%',
+                        padding: 10
+                    }}>
+                        Cancel
+                    </Button>
+                </Stack>
+
 
             </FormGroup>
 

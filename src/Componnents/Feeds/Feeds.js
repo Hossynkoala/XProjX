@@ -1,12 +1,11 @@
 import * as React from 'react';
 import {DataGrid} from '@mui/x-data-grid';
 import {recieveFeeds} from '../../DB/DB'
-import {Component, createElement, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, Stack} from "@mui/material";
 import AddFeeds from "./moduleAddFeed/moduleAddFeeds";
-import ReactDOM, {createPortal} from "react-dom";
 
-const node = document.getElementById('modal-root');
+
 const columns = [
     {
         field: 'id'

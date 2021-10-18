@@ -4,12 +4,13 @@ let baseURL = 'http://localhost:4000';
 let pathURL = {
     recieveFeeds: '/feeds',
     RecieveRSSs: '/rsss',
-    updateRSSs: '/rsss/updatersss'
+    updateRSSs: '/rsss/updatersss',
+    addFeed: '/feeds/addfeed'
 }
 
 
 function dataToStringfy(data) {
-    return JSON.stringify({"RSS": data});
+    return JSON.stringify({"Data": data});
 }
 
 
@@ -43,12 +44,18 @@ async function RecieveRSSs() {
 };
 
 async function updateRSSs(RSS) {
-  return   axios(Configy("post", pathURL.updateRSSs, dataToStringfy(RSS)));
+    return axios(Configy("post", pathURL.updateRSSs, dataToStringfy(RSS)));
+}
+
+
+async function addFeed(data) {
+    return axios(Configy("post", pathURL.addFeed, dataToStringfy(data)));
 }
 
 
 export {
     recieveFeeds,
     RecieveRSSs,
-    updateRSSs
+    updateRSSs,
+    addFeed
 }
