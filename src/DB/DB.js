@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let baseURL = 'http://localhost:4000';
+let baseURL = 'https://xprojxb.herokuapp.com';
 let pathURL = {
     recieveFeeds: '/feeds',
     RecieveRSSs: '/rsss',
